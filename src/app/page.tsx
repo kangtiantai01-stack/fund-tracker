@@ -17,10 +17,10 @@ import SectorBoard from '@/components/SectorBoard';
 import AIImageRecognizer from '@/components/AIImageRecognizer';
 import PortfolioPieChart from '@/components/PortfolioPieChart';
 import FundDetailDrawer from '@/components/FundDetailDrawer';
-import ReturnTrendChart from '@/components/ReturnTrendChart';
 import DailyCalendar from '@/components/DailyCalendar';
 
-type MainTab = 'holdings' | 'ranking' | 'sector' | 'transactions' | 'trend' | 'calendar';
+// 1️⃣ 从类型定义中移除 'trend'
+type MainTab = 'holdings' | 'ranking' | 'sector' | 'transactions' | 'calendar';
 
 /** 判断当前是否为盘中交易时间（工作日 9:30-15:00） */
 function isInTradingHours(): boolean {
@@ -55,12 +55,13 @@ async function fetchFundData(code: string): Promise<FundRealtimeData | null> {
   }
 }
 
+// 2️⃣ 定义 TABS，移除 'trend' 对应的项
 const TABS: { key: MainTab; label: string }[] = [
   { key: 'holdings', label: '我的持仓' },
   { key: 'ranking', label: '基金排行' },
   { key: 'sector', label: '板块涨跌' },
   { key: 'transactions', label: '交易记录' },
-  { key: 'trend', label: '收益走势' },
+  // { key: 'trend', label: '收益走势' },  // 已删除
   { key: 'calendar', label: '每日盈亏' },
 ];
 
@@ -275,7 +276,7 @@ export default function HomePage() {
           <AssetSummary holdings={displayHoldings} />
         )}
 
-        {/* 主Tab导航（两行：持仓相关 + 数据视图） */}
+        {/* 主Tab导航 - 已移除收益走势 */}
         <div className="flex flex-wrap gap-1 bg-[#161b2e] rounded-xl border border-white/[0.06] p-1">
           {TABS.map((tab) => (
             <button
@@ -445,9 +446,7 @@ export default function HomePage() {
           </div>
         )}
 
-        {mainTab === 'trend' && (
-          <ReturnTrendChart />
-        )}
+        {/* 3️⃣ 移除了 ReturnTrendChart 对应的代码块 */}
 
         {mainTab === 'calendar' && (
           <DailyCalendar />
